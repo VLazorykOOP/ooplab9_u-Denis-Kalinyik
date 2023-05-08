@@ -1,0 +1,27 @@
+#include <iostream>
+#include <vector>
+#include <set>
+#include <algorithm>
+#include <iterator>
+
+int main() {
+    std::vector<int> V = {1, 2, 2, 8, 9,  4, 9, 3, 1};
+    
+    // створюємо мультимножину та додаємо всі елементи вектора
+    std::multiset<int> M(V.begin(), V.end());
+    
+    // находим минимальное и максимальное значение вектора
+    int min_val = *std::min_element(V.begin(), V.end());
+    int max_val = *std::max_element(V.begin(), V.end());
+    
+    // видаляємо з мультимножини мінімальний та максимальний елементи
+    M.erase(min_val);
+    M.erase(max_val);
+    
+    // виводимо залишившіся елементи в порядку зростання
+    auto it_begin = M.lower_bound(min_val);
+    auto it_end = M.upper_bound(max_val);
+    std::copy(it_begin, it_end, std::ostream_iterator<int>(std::cout, " "));
+    
+    return 0;
+}
