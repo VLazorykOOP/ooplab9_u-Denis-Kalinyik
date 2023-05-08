@@ -1,0 +1,50 @@
+#include <iostream>
+#include <vector>
+#include <map>
+#include <algorithm>
+
+struct Applicant {
+    std::string last_name;
+    int year;
+    int school_number;
+};
+
+struct greater_less {
+    bool operator()(const std::pair<int, int>& lhs, const std::pair<int, int>& rhs) const {
+        if (lhs.first != rhs.first) {
+            return lhs.first > rhs.first;
+        }
+        return lhs.second < rhs.second;
+    }
+};
+
+int main() {
+    std::vector<Applicant> applicants = {
+        {"Ivanov", 2021, 1},
+        {"Petrov", 2020, 2},
+        {"Sidorov", 2021, 1},
+        {"Smirnov", 2022, 3},
+        {"Kuznetsov", 2021, 2},
+        {"Popov", 2020, 1},
+        {"Lebedev", 2020, 2},
+        {"Sokolov", 2022, 3},
+        {"Mikhailov", 2022, 3},
+        {"Novikov", 2021, 1}
+    };
+
+    // допоміжне відображення для угруповання за роком та номером школи
+    std::map<std::pair<int, int>, int, greater_less> counts;
+
+    // обчислюємо кількість абітурієнтів для кожної пари "рік-школа"
+
+    for (const auto& applicant : applicants) {
+        counts[{applicant.year, applicant.school_number}]++;
+    }
+
+    // виводимо результати
+    for (const auto& entry : counts) {
+        std::cout << entry.first.first << " " << entry.first.second << " " << entry.second << std::endl;
+    }
+
+    return 0;
+}
