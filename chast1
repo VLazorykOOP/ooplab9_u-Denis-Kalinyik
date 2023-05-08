@@ -1,0 +1,43 @@
+#include <iostream>
+#include <list>
+#include <algorithm>
+
+int main() {
+    std::list<int> L = {0, 2, 0, 3, 0, 4, 0};
+
+    //  Знайти перший нульовий елемент
+
+    auto it_first_zero = std::find(L.begin(), L.end(), 0);
+
+    // Якщо нульових елементів немає, то нічого не робимо
+    if (it_first_zero == L.end()) {
+        std::cout << "Нет нулевых элементов в списке\n";
+        return 0;
+    }
+
+    // Знайти останній нульовий елемент
+
+auto it_last_zero = std::find(std::reverse_iterator<decltype(L.end())>(L.end()), std::reverse_iterator<decltype(it_first_zero)>(it_first_zero), 0).base();
+
+
+
+
+    // Якщо перший і останній нульові елементи співпадають, то видаляємо тільки його
+    if (it_first_zero == it_last_zero) {
+        L.erase(it_first_zero);
+    }
+    // Якщо є два різних нульових елемента, то видаляємо обидва
+    else {
+        L.erase(it_first_zero);
+        L.erase(std::prev(it_last_zero));
+    }
+
+    // Виводимо список після видалення
+    std::cout << "Список после удаления:\n";
+    for (auto x : L) {
+        std::cout << x << ' ';
+    }
+    std::cout << '\n';
+
+    return 0;
+}
